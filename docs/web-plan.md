@@ -30,7 +30,7 @@
 - [x] Veb üçün qovluq strukturunu qərara al
 - [x] Mobil appın dizayn qaydalarını çıxar: rənglər, şriftlər, mətn ölçüləri, boşluqlar, künc yumrulığı, kölgələr, düymə və kart formaları, ikonlar, loqo. Hamısını `docs/design.md`-ə yaz
 - [x] Mobildəki ortaq komponentlərin siyahısını çıxar (düymə, input, kart, menyu, modal və s.) və `docs/design.md`-ə əlavə et
-- [ ] Mobil appın şəkillərini və ikonlarını (loqo daxil) veb üçün `glam-web`-ə kopyala
+- [x] Mobil appın şəkillərini və ikonlarını (loqo daxil) veb üçün `glam-web`-ə kopyala
 
 ## Addım 2. Əsas (Addım 1-dən sonra, digərlərindən əvvəl)
 
