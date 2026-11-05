@@ -24,8 +24,8 @@
 
 ## Addım 1. Analiz (əvvəl bu bitməlidir)
 
-- [ ] Mobil appın bütün ekranlarını siyahıya al (aşağıdakı "Ekranlar" bölməsinə yaz)
-- [ ] Hər ekranın hansı backend endpointlərini işlətdiyini Swagger-dən yaz
+- [x] Mobil appın bütün ekranlarını siyahıya al (aşağıdakı "Ekranlar" bölməsinə yaz)
+- [x] Hər ekranın hansı backend endpointlərini işlətdiyini Swagger-dən yaz
 - [ ] Backend-in CORS və cookie ayarlarını yoxla, veb üçün nə çatmır yaz
 - [ ] Veb üçün qovluq strukturunu qərara al
 - [ ] Mobil appın dizayn qaydalarını çıxar: rənglər, şriftlər, mətn ölçüləri, boşluqlar, künc yumrulığı, kölgələr, düymə və kart formaları, ikonlar, loqo. Hamısını `docs/design.md`-ə yaz
@@ -59,9 +59,16 @@ Bu siyahını Addım 1-də tapılan real ekranlarla doldur və dəyiş.
 - [ ] Detal səhifəsi
 
 ### Qrup C: Əsas funksiya
-- [ ] Sifariş / rezervasiya axını (mobildəki kimi)
-- [ ] Ödəniş (varsa)
-- [ ] Çat / bildirişlər (socket.io, varsa)
+- [ ] ~~Sifariş / rezervasiya axını~~ — mobil appda yoxdur, əvəzinə "Mağazaya yaz" (məhsul detalından chat açılır)
+- [ ] ~~Ödəniş~~ — mobil appda yoxdur
+- [ ] Chat siyahısı və söhbət (socket.io)
+- [ ] Bildirişlər (mobil-də hələ mock; backend endpointi yoxdur)
+- [ ] Sevimlilər, izlənilən mağazalar
+
+### Qrup E: Mağaza paneli (rol = store)
+- [ ] Panel (ana səhifə), Elanlarım
+- [ ] Elan əlavə et (6 addım), elanı redaktə et / status dəyiş
+- [ ] Kömək mərkəzi (FAQ)
 
 ### Qrup D: SEO və statik səhifələr
 - [ ] Hər səhifə üçün başlıq (title) və təsvir (description)
@@ -80,7 +87,48 @@ Bu siyahını Addım 1-də tapılan real ekranlarla doldur və dəyiş.
 
 ## Ekranlar (Addım 1-də doldurulur)
 
-_Boşdur. Agent mobil appa baxıb burada doldurur._
+Mənbə: `glam-mobile/src/router/**`, `src/screens/**`. Rol `RootNavigator`-da seçilir: giriş yoxdursa Auth, qonaq rejimi → Guest, `role=customer` → Customer, digər → Store.
+Endpoint yolları `/api`-dən sonradır. Hamısı backend Swagger-də (`/api-docs`) sənədləşib.
+
+**Tab-lar:** Qonaq: Əsas · Mağazalar · Profil (→ girişə yönləndirir). Müştəri: Ana səhifə · Mağazalar · Sevimlilər · Chat · Profil. Mağaza: Ana səhifə · Elanlarım · Chat · Profil.
+
+| Ekran (mobil route) | Fayl (`src/screens/…`) | Rol | Nə edir | Backend endpointləri | Veb URL (təklif) |
+|---|---|---|---|---|---|
+| Login | `Auth/Login` | hamı | Telefon + şifrə ilə giriş, "qonaq kimi davam et" | POST /auth/login | `/giris` |
+| Register | `Auth/Register` | hamı | Hesab növü (müştəri/mağaza) + qeydiyyat, şəhər seçimi | POST /auth/register/customer, POST /auth/register/store, GET /cities | `/qeydiyyat` |
+| ForgotPassword | `Auth/ForgotPassword` | hamı | Telefon daxil et → OTP | **yoxdur** (mobil-də TODO) | `/sifremi-unutdum` |
+| OtpVerification | `Auth/OTP` | hamı | 4 rəqəmli kod, 59 san. təkrar | **yoxdur** (TODO; backend-də POST /auth/send-otp, /auth/verify-otp var) | `/sifremi-unutdum/kod` |
+| CustomerHome / GuestHome | `Customer/Home` | qonaq, müştəri | Məhsul lenti: kateqoriyalar, axtarış, təkliflər, axtarış tarixçəsi, şəhər, filtr, sıralama | GET /products, GET /products/suggestions, GET /favorites/ids, GET /cities | `/` |
+| CustomerFilter | `Customer/Search/FilterScreen` | qonaq, müştəri | Filtrlər: kateqoriya, ölçü, cins, qiymət, rəng, vəziyyət, reytinq (statik seçimlər) | — | `/` və `/axtaris` üzərində panel |
+| CustomerProductDetail | `Customer/Product` → `components/productDetail` | qonaq, müştəri | Məhsul detalı, sevimli, "mağazaya yaz" | POST/DELETE /favorites/:id, GET /chat/conversations, POST /chat/conversations/direct | `/mehsul/[id]` |
+| CustomerStores | `Customer/Stores` | qonaq, müştəri | Seçilmiş mağazalar + axtarışlı, səhifəli siyahı, izlə | GET /stores/featured, GET /stores, POST /stores/:id/follow | `/magazalar` |
+| CustomerStoreDetail | `Customer/Stores/StoreDetail` | qonaq, müştəri | Mağaza başlığı, izlə, yaz, kateqoriya üzrə elanlar | GET /stores/:id, GET /stores/:id/listings, POST /stores/:id/follow, favorites, chat | `/magaza/[id]` |
+| CustomerFollowedStores | `Customer/Stores/FollowedStores` | müştəri | İzlənilən mağazalar | GET /stores/followed, POST /stores/:id/follow | `/profil/izlenilenler` |
+| CustomerFavorites | `Customer/Favorites` | müştəri | Sevimli məhsullar (səhifəli) | GET /favorites, POST/DELETE /favorites/:id | `/sevimliler` |
+| CustomerChat | `Customer/Chat` | müştəri | Söhbət siyahısı | GET /chat/conversations + socket | `/chat` |
+| CustomerChatDetail | `Customer/Chat/ChatDetailScreen` | müştəri | Mesajlar, yazır..., oxundu işarələri, məhsul kartı | GET /chat/conversations/:id/messages, POST /chat/conversations/:id/read + socket | `/chat/[id]` |
+| CustomerProfile | `Customer/Profile` | müştəri | Profil kartı, saylar, linklər, dil, tema, çıxış | GET /favorites/ids, GET /stores/followed, POST /auth/logout | `/profil` |
+| CustomerEditProfile | `Customer/Profile/EditProfile` | müştəri | Ad, şəhər və s. redaktə | PUT /auth/me, GET /cities | `/profil/duzelis` |
+| GuestProfile | `Guest/GuestProfilePrompt` | qonaq | Girişə dəvət | — | (girişə yönləndirmə) |
+| Notifications | `Notifications/index` | müştəri, mağaza | Bildiriş siyahısı | **yoxdur** — yalnız mock data | `/bildirisler` |
+| NotificationDetails | `Notifications/NotificationDetailsScreen` | müştəri, mağaza | Bir bildiriş | — (mock) | `/bildirisler/[id]` |
+| HelpCenter | `HelpCenter/index` | müştəri, mağaza | FAQ axtarış + accordion | GET /help/faqs | `/komek` (ictimai, SEO) |
+| StoreHome | `Store/Home` | mağaza | Panel: statistikalar, son söhbətlər, ən çox baxılan elanlar, "elan əlavə et" | GET /stores/me, GET /chat/conversations, GET /listings?sortBy=views | `/panel` |
+| StoreListings | `Store/Listings` | mağaza | Öz elanları status tab-ları ilə | GET /listings?status | `/panel/elanlar` |
+| StoreListingDetail | `Store/Listings/LisingDetailScreen` | mağaza | Öz elanının önizləməsi | — (param ilə) | `/panel/elanlar/[id]` |
+| EditListing | `Store/Listings/EditListingScreen` | mağaza | Elanı redaktə, status dəyiş (aktiv/deaktiv/satılıb) | GET /listings/:id, PUT /listings/:id, PATCH /listings/:id/status, POST /uploads/image, GET /cities | `/panel/elanlar/[id]/duzelis` |
+| StoreAddListing | `Store/AddListing` (+ 6 addım) | mağaza | 6 addımlı sehrbaz: şəkillər, əsas məlumat, xüsusiyyətlər, qiymət, təsvir, yoxlama | POST /uploads/image, GET /cities, POST /listings | `/panel/elan-elave-et` |
+| StoreChat / StoreChatDetail | `Store/Chat`, `Store/Chat/ChatDetailScreen` | mağaza | Müştəri chat-ı ilə eyni | müştəri chat-ı ilə eyni | `/chat`, `/chat/[id]` |
+| StoreProfile | `Store/Profile` | mağaza | Mağaza profili, elan əlavə et, kömək, dil, çıxış | GET /stores/me, POST /auth/logout | `/profil` |
+
+**Socket.io** (`src/services/socket.ts`): `io(SOCKET_URL, {auth:{token}})`. Göndərir: `conversation:join`, `conversation:leave`, `message:send`, `typing`, `message:read`. Dinləyir: `message:new`, `conversation:updated`, `typing`, `message:status`, `message:read`.
+
+**Qeydlər:**
+- Mobil appda ödəniş və sifariş/rezervasiya axını **yoxdur**: əlaqə "mağazaya yaz" (chat) ilə qurulur. Qrup C buna görə dəyişdirilib.
+- Məhsul detalı mobil-də ayrıca sorğu etmir (obyekt əvvəlki ekrandan ötürülür). Backend-də **ictimai `GET /products/:id` yoxdur**. Vebdə birbaşa link və SEO üçün lazımdır (bax "Backend qeydləri").
+- `Customer/Search/index.tsx` tam şərhə alınıb, qeydiyyatda deyil. Axtarış Home ekranının içindədir.
+- Register `PrivacyPolicy` və `SellerAgreement` səhifələrinə keçid edir, amma bu ekranlar mobil-də yoxdur. Vebdə statik səhifə kimi ediləcək.
+- i18n: az (default), en, ru. Açarlar azərbaycanca mətnlərdir. Locale fayllarında ~69 açar var, kodda ~177. Çoxlu mətn birbaşa azərbaycanca yazılıb.
 
 ## Backend qeydləri (Addım 1-də doldurulur)
 
