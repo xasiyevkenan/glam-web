@@ -35,7 +35,7 @@
 ## Addım 2. Əsas (Addım 1-dən sonra, digərlərindən əvvəl)
 
 - [x] `glam-web` kökündə Next.js layihəsini qur (Next 16.4, React 19.3, TypeScript, Tailwind v4, App Router, `src/`)
-- [ ] Backend ilə əlaqə üçün ortaq API client yaz
+- [x] Backend ilə əlaqə üçün ortaq API client yaz (`src/lib/api`: server üçün `serverApi`, brauzer üçün `api` → BFF `/api/backend/*`)
 - [ ] Giriş sistemini qur (cookie ilə, backend uyğunlaşdırılsa)
 - [ ] Dizayn sistemi: `docs/design.md`-ə əsasən rəngləri, şriftləri və ölçüləri tək yerdə təyin et (mobil appla eyni)
 - [ ] Ortaq komponentləri düzəlt: düymə, input, kart, modal və s., mobildəkilərlə eyni görünüşdə
