@@ -1,5 +1,3 @@
-import type {SVGProps} from 'react';
-
 type Props = {size?: number; color?: string; filled?: boolean};
 
 const HeartIcon = ({size = 15, color = '#5F5E5A', filled = false}: Props) => (

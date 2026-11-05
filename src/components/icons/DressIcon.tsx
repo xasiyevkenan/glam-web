@@ -1,5 +1,3 @@
-import type {SVGProps} from 'react';
-
 type Props = {
   size?: number;
   color?: string;

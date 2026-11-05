@@ -1,5 +1,3 @@
-import type {SVGProps} from 'react';
-
 type Props = {size?: number; color?: string};
 
 const ChatIcon = ({size = 24, color = '#000'}: Props) => (
