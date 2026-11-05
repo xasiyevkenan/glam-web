@@ -112,7 +112,8 @@ Hər qrupu bitirəndə: build və lint keç, 4 enində (375, 768, 1280, 1536px) 
 
 ## Yoxlanmayanlar
 
-- **Uğurlu giriş və qeydiyyat real hesabla sınanmayıb** (test hesabı yoxdur; production backend-də test hesabı yaratmaq istəmədim). Yoxlanılan: forma validasiyası, səhv girişdə backend mesajının toast-da göstərilməsi, cookie/proxy məntiqi. Profil səhifələri Playwright-da saxta sessiya ilə (`scripts/mocks/*.json`) yoxlanılıb.
+- **Real giriş sınanıb** (2026-11-06, test hesabı — mağaza rolu, `node --env-file=.env.example scripts/auth-smoke.mjs`): giriş → yönləndirmə, httpOnly cookie-lər, `/profil` açılır, yeniləyəndə sessiya qalır, tokenlər `document.cookie`-də görünmür, çıxış cookie-ləri silir və `/profil` → `/giris`. Hamısı keçdi. **Qeydiyyat** real backend-də sınanmayıb (hesab yaratmamaq üçün). Müştəri rolu ilə real giriş sınanmayıb (test hesabı mağazadır); müştəri profili saxta sessiya ilə (`scripts/mocks/*.json`) yoxlanılıb.
+- Qeyd: vebdə giriş eyni hesabın mobil sessiyasını bağlayır (backend istifadəçi başına bir refresh token saxlayır, "Backend qeydləri" #3).
 - Profil redaktəsi (`PUT /auth/me`) real backend-ə qarşı sınanmayıb.
 - Yoxlama yalnız Chromium-da (Playwright) edilib. Safari/Firefox və real telefonlarda baxılmayıb.
 - Toast-un açıq modalın üstündə görünməsi (`popover`) avtomatik testlə yoxlanmayıb (modal açıq ikən toast düyməsinə basmaq olmur).
