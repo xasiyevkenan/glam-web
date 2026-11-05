@@ -37,7 +37,7 @@
 - [x] `glam-web` kökündə Next.js layihəsini qur (Next 16.4, React 19.3, TypeScript, Tailwind v4, App Router, `src/`)
 - [x] Backend ilə əlaqə üçün ortaq API client yaz (`src/lib/api`: server üçün `serverApi`, brauzer üçün `api` → BFF `/api/backend/*`)
 - [x] Giriş sistemini qur (cookie ilə, backend uyğunlaşdırılsa) — backend dəyişmədən: `/api/auth/*` route handler-ləri + httpOnly cookie, refresh `src/proxy.ts`-də, client üçün `useAuth()`. Giriş/qeydiyyat səhifələrinin UI-si Qrup A-dadır
-- [ ] Dizayn sistemi: `docs/design.md`-ə əsasən rəngləri, şriftləri və ölçüləri tək yerdə təyin et (mobil appla eyni)
+- [x] Dizayn sistemi: `docs/design.md`-ə əsasən rəngləri, şriftləri və ölçüləri tək yerdə təyin et (mobil appla eyni)
 - [ ] Ortaq komponentləri düzəlt: düymə, input, kart, modal və s., mobildəkilərlə eyni görünüşdə
 - [ ] Ümumi layout: yuxarı menyu, aşağı hissə, səhifə qabığı
 - [ ] Build və lint keçsin

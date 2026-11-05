@@ -243,3 +243,25 @@ Hər komponent `glam-mobile/src/components/...` faylından götürülüb. Vebdə
 - Chat: mobil siyahı və söhbət ayrı səhifə → `lg` solda siyahı, sağda söhbət.
 - Giriş/qeydiyyat: kompüterdə forma mərkəzdə maks 440px, `AuthHeader` bloku formanın üstündə.
 - Rənglər, şriftlər, radiuslar, düymə hündürlükləri **dəyişmir**.
+
+## 11. Kodda istifadə
+
+- Tokenlər: `src/styles/tokens.css` (tək mənbə, `light-dark()` ilə açıq/tünd). Tailwind bağlantısı: `src/app/globals.css` (`@theme`).
+- Tailwind-in default rəng, radius, kölgə və mətn ölçüləri **söndürülüb** — yalnız mobil tokenləri işləyir.
+
+| Mobil | Tailwind sinfi | CSS dəyişəni |
+|---|---|---|
+| `colors.primary` | `bg-primary`, `text-primary`, `border-primary` | `--primary` |
+| `colors.screenBackground` | `bg-screen` | `--screen-background` |
+| `colors.textPrimary` / `textSecondary` / `textMuted` | `text-text-primary` / `text-text-secondary` / `text-text-muted` | |
+| `colors.textOnPrimary` / `textOnPrimaryMuted` | `text-on-primary` / `text-on-primary-muted` | |
+| `colors.imageTint1..4` | `bg-tint-1..4` | |
+| `SIZES.padding..padding7` | `p-s1` … `p-s7` (8, 12, 15, 18, 22, 25, 30) | `--space-1..7` |
+| `SIZES.radiusSm/radius/radiusLg/radiusXl/radiusFull` | `rounded-sm/md/lg/xl/full` (8/12/14/16/∞) | `--radius-*` |
+| `FONTS.h1…tiny`, `button`, `label` | `text-h1`, `text-h3`, `text-body4`, `text-caption2`, `text-button`, `text-label`, `text-tiny` (ölçü + sətir + çəki birlikdə) | |
+| Düymə / input hündürlüyü | `h-button` (54), `h-button-sm` (35), `h-control` (52) | |
+| `activeOpacity` | `pressable` | `--press-opacity` |
+| Kölgələr | `shadow-xs/sm/md/header/nav` | |
+
+- Tema: default sistem; əl ilə `setThemeScheme('light'|'dark'|'system')` (`src/styles/theme.ts`), `<html data-theme>`.
+- Şrift: `src/styles/fonts.ts` (`next/font/local`, Montserrat 400–800).
