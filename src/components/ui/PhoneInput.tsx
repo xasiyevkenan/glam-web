@@ -9,7 +9,7 @@ type Props = Omit<ComponentProps<"input">, "size" | "type" | "onChange" | "value
   label?: string;
   error?: string;
   value: string;
-  /** Yalnız rəqəmlər (maks. 9), məs. "553209707" — backend bu formatı gözləyir. */
+  /** Yalnız rəqəmlər (maks. 9), məs. "501234567" — backend bu formatı gözləyir. */
   onChange: (digits: string) => void;
 };
 
