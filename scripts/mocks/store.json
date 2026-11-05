@@ -1,0 +1,5 @@
+{
+  "/api/auth/session": { "success": true, "data": { "id": 2, "full_name": "Zeynəb Quliyeva", "phone": "553209708", "email": null, "role": "store", "city": { "id": 2, "name": "Gəncə" }, "created_at": "2026-01-01" } },
+  "/api/backend/stores/me": { "success": true, "data": { "id": 2, "storeName": "Gəncə Butik", "contactPersonName": "Zeynəb Quliyeva", "avatarInitials": "GB", "description": "Hər gəlinin röyası üçün", "isVerified": true, "rating": "4.8", "reviewCount": 12, "followerCount": 40, "yearsExperience": 3, "location": "Gəncə", "activeListingCount": 7 } },
+  "/api/backend/cities": { "success": true, "data": [{ "id": 1, "name": "Bakı" }, { "id": 2, "name": "Gəncə" }] }
+}

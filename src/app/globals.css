@@ -1,0 +1,215 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/*
+ * Tailwind-i dizayn tokenlərinə bağlayırıq (dəyərlər yalnız tokens.css-dədir).
+ * Nümunələr: bg-primary, text-text-secondary, border-border, rounded-lg (14px),
+ * p-s4 (18px), text-h3, text-body4, text-button, shadow-header.
+ */
+@theme inline {
+  /* Tailwind-in default rəng palitrasını söndür — yalnız mobil rənglər. */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-accent: var(--accent);
+  --color-icon-purple: var(--icon-purple);
+  --color-background: var(--background);
+  --color-screen: var(--screen-background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-border-soft: var(--border-soft);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-on-primary: var(--text-on-primary);
+  --color-on-primary-muted: var(--text-on-primary-muted);
+  --color-chip-text: var(--chip-text);
+  --color-on-strong: var(--text-on-strong);
+  --color-on-primary-light: var(--on-primary-light);
+  --color-placeholder: var(--placeholder);
+  --color-overlay-on-primary: var(--overlay-on-primary);
+  --color-link: var(--link-active);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-badge-gold: var(--badge-gold);
+  --color-nav-inactive: var(--nav-inactive);
+  --color-nav-active: var(--nav-active);
+  --color-tint-1: var(--image-tint-1);
+  --color-tint-2: var(--image-tint-2);
+  --color-tint-3: var(--image-tint-3);
+  --color-tint-4: var(--image-tint-4);
+  --color-white: var(--white);
+  --color-black: var(--black);
+  --color-status-active: var(--status-active);
+  --color-status-pending: var(--status-pending);
+  --color-status-inactive: var(--status-inactive);
+  --color-status-sold: var(--status-sold);
+  --color-online: var(--online);
+  --color-overlay: var(--overlay);
+
+  --font-sans: var(--font-montserrat), system-ui, sans-serif;
+
+  --spacing-s1: var(--space-1);
+  --spacing-s2: var(--space-2);
+  --spacing-s3: var(--space-3);
+  --spacing-s4: var(--space-4);
+  --spacing-s5: var(--space-5);
+  --spacing-s6: var(--space-6);
+  --spacing-s7: var(--space-7);
+  --spacing-control: var(--control-height);
+  --spacing-button: var(--button-height);
+  --spacing-button-sm: var(--button-height-sm);
+  --spacing-circle: var(--header-circle);
+  --container-content: var(--content-max-width);
+
+  --radius-*: initial;
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+
+  --shadow-*: initial;
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-header: var(--shadow-header);
+  --shadow-nav: var(--shadow-nav);
+}
+
+/* Tipoqrafiya (design.md §3) — mobil FONTS ilə eyni. */
+@theme {
+  --text-*: initial;
+  --text-large-title: 40px;
+  --text-large-title--line-height: 48px;
+  --text-large-title--font-weight: 700;
+  --text-h1: 32px;
+  --text-h1--line-height: 35px;
+  --text-h1--font-weight: 700;
+  --text-h2: 22px;
+  --text-h2--line-height: 30px;
+  --text-h2--font-weight: 700;
+  --text-h3: 21px;
+  --text-h3--line-height: 25px;
+  --text-h3--font-weight: 700;
+  --text-h4: 16px;
+  --text-h4--line-height: 20px;
+  --text-h4--font-weight: 700;
+  --text-h5: 12px;
+  --text-h5--line-height: 20px;
+  --text-h5--font-weight: 700;
+  --text-body1: 30px;
+  --text-body1--line-height: 28px;
+  --text-body1--font-weight: 400;
+  --text-body2: 20px;
+  --text-body2--line-height: 24px;
+  --text-body2--font-weight: 400;
+  --text-body3: 16px;
+  --text-body3--line-height: 22px;
+  --text-body3--font-weight: 400;
+  --text-body4: 15px;
+  --text-body4--line-height: 20px;
+  --text-body4--font-weight: 500;
+  --text-body5: 14px;
+  --text-body5--line-height: 18px;
+  --text-body5--font-weight: 400;
+  --text-caption1: 13px;
+  --text-caption1--line-height: 16px;
+  --text-caption1--font-weight: 400;
+  --text-caption2: 12px;
+  --text-caption2--line-height: 14px;
+  --text-caption2--font-weight: 400;
+  --text-button: 15px;
+  --text-button--line-height: 20px;
+  --text-button--font-weight: 600;
+  --text-label: 13px;
+  --text-label--line-height: 16px;
+  --text-label--font-weight: 500;
+  --text-tiny: 12px;
+  --text-tiny--line-height: 14px;
+  --text-tiny--font-weight: 400;
+  --text-micro: 10px;
+  --text-micro--line-height: 12px;
+  --text-micro--font-weight: 600;
+
+  --animate-pulse-soft: pulse-soft 1.3s ease-in-out infinite;
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--screen-background);
+    color: var(--text-primary);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 18px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::placeholder {
+    color: var(--text-secondary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/*
+ * Kiçik görünüşlü düymələrin toxunma sahəsini görünüşü dəyişmədən ən az 44px edir.
+ * Element `relative` və ya `absolute` olmalıdır.
+ */
+@utility touch-target {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, var(--touch-target));
+    height: max(100%, var(--touch-target));
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Mobil `activeOpacity` qarşılığı. */
+@utility pressable {
+  transition: opacity 120ms ease;
+  cursor: pointer;
+  &:hover:not(:disabled) { opacity: var(--press-opacity); }
+  &:active:not(:disabled) { opacity: 0.7; }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: translateY(0); }
+}

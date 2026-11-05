@@ -1,0 +1,124 @@
+/*
+ * Glam.az dizayn tokenləri — TƏK MƏNBƏ.
+ * Dəyərlər glam-mobile/src/constants/theme.ts-dən götürülüb (bax docs/design.md).
+ * Hər rəng light-dark(açıq, tünd) ilə bir dəfə yazılır; rejimi `color-scheme` seçir:
+ *   - default: sistem seçimi (mobil kimi)
+ *   - <html data-theme="light|dark">: istifadəçinin seçimi
+ * Komponentlərdə hex/px yazılmır — Tailwind sinifləri (globals.css @theme) və ya bu dəyişənlər işlədilir.
+ */
+:root {
+  color-scheme: light dark;
+
+  /* ---- Rənglər (design.md §2) ---- */
+  --primary: light-dark(#2e2140, #4a3768);
+  --primary-light: light-dark(#eeedfe, #2a2438);
+  --primary-dark: light-dark(#221833, #1c1428);
+  --accent: light-dark(#b8905a, #c9a06c);
+  --icon-purple: light-dark(#534ab7, #9c8fe0);
+
+  --background: light-dark(#efefef, #121016);
+  --screen-background: light-dark(#faf7f2, #1a1720);
+  --surface: light-dark(#fafaf8, #211d29);
+  --surface-muted: light-dark(#f1f1ec, #26212e);
+  --card: light-dark(#fafaf8, #211d29);
+
+  --border: light-dark(#ecece6, #332c3f);
+  --border-light: light-dark(#e2e2e2, #3a3345);
+  --border-soft: light-dark(#ece4d8, #3a3240);
+
+  --text-primary: light-dark(#1a1a18, #f3f1f7);
+  --text-secondary: light-dark(#8a8a85, #a79fb0);
+  --text-muted: light-dark(#6b6b66, #8e869c);
+  --text-on-primary: #faf7f2;
+  --text-on-primary-muted: #c9bbd8;
+  /* Güclü rəngli fonlar (danger, statusActive) üzərində mətn. Tünd rejimdə həmin fonlar açıq olduğu üçün mətn tünd olur (kontrast, Qayda 9). */
+  --text-on-strong: light-dark(#faf7f2, #1a1720);
+  /* primaryLight fon üzərində mətn/ikon (avatar hərfi, modal ikonu). Tünddə primary oxunmur → iconPurple. */
+  --on-primary-light: light-dark(#2e2140, #9c8fe0);
+  --chip-text: light-dark(#444441, #c7c2cf);
+  --placeholder: light-dark(#adada6, #6f6a78);
+
+  --overlay-on-primary: light-dark(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.1));
+  --link-active: light-dark(#185fa5, #5fa8e8);
+  --danger: light-dark(#a32d2d, #e5787b);
+  --danger-bg: light-dark(#fcebeb, #3b2226);
+  --badge-gold: light-dark(#b8905a, #c9a06c);
+
+  --nav-inactive: light-dark(#adada6, #6f6a78);
+  --nav-active: light-dark(#185fa5, #5fa8e8);
+
+  --image-tint-1: light-dark(#e6f1fb, #1e2a36);
+  --image-tint-2: light-dark(#eeedfe, #2a2438);
+  --image-tint-3: light-dark(#faeeda, #332c22);
+  --image-tint-4: light-dark(#eaf3de, #232b1e);
+
+  --white: #ffffff;
+  --black: light-dark(#1a1a18, #000000);
+  --shadow: light-dark(rgba(46, 33, 64, 0.3), rgba(0, 0, 0, 0.45));
+
+  --status-active: light-dark(#3e7c3e, #6fcf6f);
+  --status-pending: light-dark(#b8905a, #c9a06c);
+  --status-inactive: light-dark(#8a8a85, #a79fb0);
+  --status-sold: light-dark(#a32d2d, #e5787b);
+
+  --online: #3dbe6b;
+  --overlay: rgba(0, 0, 0, 0.4);
+
+  /* ---- Boşluqlar (design.md §4) ---- */
+  --space-1: 8px;  /* padding  */
+  --space-2: 12px; /* padding2 */
+  --space-3: 15px; /* padding3 */
+  --space-4: 18px; /* padding4 — ekran yan boşluğu */
+  --space-5: 22px; /* padding5 */
+  --space-6: 25px; /* padding6 */
+  --space-7: 30px; /* padding7 */
+
+  /* ---- Radius (design.md §5) ---- */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ---- Ölçülər (komponentlər) ---- */
+  --control-height: 52px;  /* input, axtarış */
+  --button-height: 54px;
+  --button-height-sm: 35px;
+  --header-circle: 40px;
+  --content-max-width: 1200px;
+  --touch-target: 44px;    /* telefonda minimum toxunma sahəsi (Qayda 11) */
+
+  /* ---- Kölgələr (design.md §6) ---- */
+  --shadow-xs: 0 1px 2px rgba(46, 33, 64, 0.1);
+  --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+  --shadow-header: 0 6px 10px light-dark(rgba(46, 33, 64, 0.18), rgba(0, 0, 0, 0.27));
+  --shadow-nav: 0 6px 16px var(--shadow);
+
+  /* ---- Hərəkət (design.md §8) ---- */
+  --press-opacity: 0.85;
+  --duration-sheet: 220ms;
+  --duration-toast-in: 260ms;
+  --duration-toast-out: 200ms;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/*
+ * Breakpoint-lər — TƏK YER (Qayda 11). Mobile-first: sinif prefiksi bu endən YUXARI tətbiq olunur.
+ * Media query-lər CSS dəyişəni qəbul etmədiyi üçün Tailwind @theme ilə burada təyin olunur.
+ */
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 40rem;  /* 640px  — böyük telefon */
+  --breakpoint-md: 48rem;  /* 768px  — planşet */
+  --breakpoint-lg: 64rem;  /* 1024px — kiçik kompüter (yuxarı menyu açılır) */
+  --breakpoint-xl: 80rem;  /* 1280px — kompüter */
+  --breakpoint-2xl: 96rem; /* 1536px — geniş ekran */
+}
