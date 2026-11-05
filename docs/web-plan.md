@@ -26,8 +26,8 @@
 
 - [x] Mobil appın bütün ekranlarını siyahıya al (aşağıdakı "Ekranlar" bölməsinə yaz)
 - [x] Hər ekranın hansı backend endpointlərini işlətdiyini Swagger-dən yaz
-- [ ] Backend-in CORS və cookie ayarlarını yoxla, veb üçün nə çatmır yaz
-- [ ] Veb üçün qovluq strukturunu qərara al
+- [x] Backend-in CORS və cookie ayarlarını yoxla, veb üçün nə çatmır yaz
+- [x] Veb üçün qovluq strukturunu qərara al
 - [ ] Mobil appın dizayn qaydalarını çıxar: rənglər, şriftlər, mətn ölçüləri, boşluqlar, künc yumrulığı, kölgələr, düymə və kart formaları, ikonlar, loqo. Hamısını `docs/design.md`-ə yaz
 - [ ] Mobildəki ortaq komponentlərin siyahısını çıxar (düymə, input, kart, menyu, modal və s.) və `docs/design.md`-ə əlavə et
 - [ ] Mobil appın şəkillərini və ikonlarını (loqo daxil) veb üçün `glam-web`-ə kopyala
@@ -132,8 +132,56 @@ Endpoint yolları `/api`-dən sonradır. Hamısı backend Swagger-də (`/api-doc
 
 ## Backend qeydləri (Addım 1-də doldurulur)
 
-_Boşdur. Backend-də nə dəyişdirildisə, burada yazılır._
+### Hazırkı vəziyyət (yoxlanılıb, `glam-backend` `main` @ 582b71c)
+- **CORS** (`src/app.js`): `origin: ["https://glam-admin-uk14.onrender.com", "http://localhost:5173"]`, `credentials` yoxdur.
+- **Socket.io CORS** (`src/sockets/socket.js`): `origin: "*"`. Token handshake-də `auth.token` ilə yoxlanılır.
+- **Auth**: yalnız `Authorization: Bearer <accessToken>` (`authMiddleware.js`, `optionalAuth.js`). `cookie-parser` qoşulub, amma heç yerdə cookie yazılmır və oxunmur.
+- **Refresh**: `POST /auth/refresh-token` body-də `{refreshToken}` alır, həmişə yeni refresh token qaytarır (rotation). Logout: `POST /auth/logout {refreshToken}`.
+- **Refresh token istifadəçi başına bir dənədir** (`users.refresh_token` sütunu). Hər girişdə və refresh-də köhnəsi silinir.
+
+### Veb üçün nə çatmır
+1. **CORS-da veb domeni yoxdur.** Brauzerdən birbaşa backend-ə sorğu getsə, bloklanacaq.
+   → Həll (seçilib, bax "Qərarlar"): brauzer backend-ə birbaşa getmir, Next.js serveri proxy edir (BFF). Buna görə **CORS dəyişikliyi lazım deyil**. Yalnız socket.io brauzerdən birbaşa qoşulur, onun CORS-u `*`-dır.
+2. **Cookie ilə giriş yoxdur.** Backend tokenləri JSON-da qaytarır.
+   → Həll: Next.js route handler-ləri tokenləri `glam.az` domenində `httpOnly; Secure; SameSite=Lax` cookie-lərdə saxlayır və backend-ə Bearer başlığı ilə ötürür. **Backend dəyişikliyi lazım deyil.**
+3. **Bir istifadəçi = bir refresh token.** İstifadəçi vebdə daxil olanda mobil appdakı sessiyası (növbəti refresh-də) bağlanacaq, və əksinə. Bu, mobil appı "pozmur", amma istifadəçi üçün narahatdır.
+   → Tövsiyə (hələ edilməyib): `web-support` branch-da `refresh_tokens` cədvəli (user_id, token_hash, device, expires_at) ilə çox sessiya dəstəyi. Mobil app üçün API eyni qalır. Bunun üçün ayrıca icazə/qərar lazımdır, çünki DB migrasiyası tələb edir.
+4. **İctimai məhsul detalı endpointi yoxdur** (`GET /products/:id`). Vebdə `/mehsul/[id]` səhifəsi və SEO üçün lazımdır. → Addım 3-də (Qrup B, Detal səhifəsi) `web-support` branch-da əlavə ediləcək: yalnız yeni endpoint, mövcudlara toxunulmur.
+5. Kiçik: mobil `GET /stores` sorğusuna `sort` göndərir, backend onu nəzərə almır. `GET /auth/admin/login` və `src/routes/admin/*` Swagger-ə düşmür (`swagger.js` `apis: ["src/routes/*.js"]`). Veb üçün bloklayıcı deyil.
+
+### Dəyişikliklər
+_Hələ heç nə dəyişdirilməyib. `web-support` branch-ı yaradılmayıb._
 
 ## Qərarlar
 
-_Boşdur. Agentin verdiyi qərarlar burada yazılır._
+1. **Branch-lar:** Addım 1 `web/analysis`, Addım 2 `web/foundation` branch-ında. `main`-ə birbaşa yazılmır.
+2. **Auth arxitekturası — BFF (Next.js proxy):** brauzer yalnız öz domeni ilə (`/api/...` Next route handler-ləri) danışır. Tokenlər httpOnly cookie-lərdə saxlanılır (`glam_at`, `glam_rt`), Next serveri backend-ə `Authorization: Bearer` göndərir və 401-də refresh edir. Səbəb: backend-ə və mobil appa toxunmadan "cookie ilə giriş", CORS dəyişikliyi lazım deyil, tokenlər JS-ə açıq deyil (XSS-dən qorunur). Socket.io üçün brauzer qısa ömürlü access token-i `GET /api/auth/socket-token` ilə alır.
+3. **Çox sessiya (refresh token) problemi** hələlik həll edilmir, yalnız "Backend qeydləri" #3-də tövsiyə kimi yazılıb. Səbəb: DB migrasiyası tələb edir, Addım 1–2 üçün bloklayıcı deyil.
+4. **Sifariş / ödəniş** mobil appda olmadığı üçün vebdə də edilmir. Qrup C mobil appdakı real funksiyalara görə dəyişdirilib, Qrup E (mağaza paneli) əlavə edilib.
+5. **i18n:** az (default), en, ru. Mobil locale faylları `src/i18n/locales`-ə kopyalanıb. Açarlar mobil-dəki kimi azərbaycanca mətnlərdir. SEO üçün az dili prefikssiz (`/`), digərləri sonra (`/en`, `/ru`) əlavə ediləcək. Addım 2-də yalnız az.
+6. **URL-lər azərbaycanca** (`/magazalar`, `/mehsul/[id]` və s.), cədvəl "Ekranlar" bölməsindədir.
+7. **Tema:** açıq/tünd hər ikisi (mobil kimi). Default sistem seçimi, CSS dəyişənləri + `data-theme`.
+8. **İkonlar** mobil `react-native-svg` komponentlərindən mexaniki çevrilib (`Svg`→`svg`, `Path`→`path` və s.), eyni adlarla `src/components/icons/`-dədir. `Checlcon.tsx` (mobil-də yazı səhvi) → `CheckIcon.tsx`.
+9. **Qovluq strukturu** (Next.js App Router, `src/` ilə):
+   ```
+   glam-web/
+     docs/                 plan, design.md
+     public/brand/         loqo, app ikonu (mobil appdan)
+     src/
+       app/                səhifələr (route-lar), app/api/* — BFF route handler-ləri
+         (site)/           ictimai + müştəri səhifələri (yuxarı menyu + footer)
+         (auth)/           giriş, qeydiyyat, şifrəni unutdum
+         panel/            mağaza paneli
+       assets/fonts/       Montserrat (mobil appdan)
+       components/
+         icons/            SVG ikonlar (mobil appdan)
+         ui/               Button, Input, Card, Modal ... (design.md §9)
+         layout/           Header, Footer, BottomNav, PageShell
+       features/<sahə>/    auth, products, stores, chat, listings — sahəyə aid komponent və hook-lar
+       lib/api/            API client (server və brauzer), endpoint siyahısı, tiplər
+       lib/auth/           cookie/sessiya köməkçiləri
+       i18n/               locale faylları və t() funksiyası
+       styles/             tokens.css (design.md-dən), globals.css
+       types/              ortaq tiplər (mobil `src/types`-a uyğun)
+   ```
+10. **Stil:** Tailwind CSS v4, rəng/ölçü dəyərləri yalnız `src/styles/tokens.css`-də CSS dəyişənləri kimi; Tailwind `@theme` bu dəyişənlərə bağlanır. Komponentlərdə hex yazılmır.
