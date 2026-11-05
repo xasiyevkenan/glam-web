@@ -64,6 +64,24 @@
   --online: #3dbe6b;
   --overlay: rgba(0, 0, 0, 0.4);
 
+  /* ---- Məhsul rəng nümunələri (filtr və məhsul məlumatı) — mobil data/productOptions.ts COLOR_OPTIONS ---- */
+  --swatch-white: #ffffff;
+  --swatch-black: #1a1a1a;
+  --swatch-red: #e53935;
+  --swatch-pink: #ec407a;
+  --swatch-blue: #1e88e5;
+  --swatch-navy: #1a237e;
+  --swatch-green: #43a047;
+  --swatch-yellow: #fdd835;
+  --swatch-orange: #fb8c00;
+  --swatch-purple: #8e24aa;
+  --swatch-brown: #6d4c41;
+  --swatch-beige: #d7ccc8;
+  --swatch-gray: #9e9e9e;
+  --swatch-gold: #c9a227;
+  --swatch-silver: #b0bec5;
+  --swatch-multicolor: conic-gradient(var(--swatch-red), var(--swatch-yellow), var(--swatch-green), var(--swatch-blue), var(--swatch-purple), var(--swatch-red));
+
   /* ---- Boşluqlar (design.md §4) ---- */
   --space-1: 8px;  /* padding  */
   --space-2: 12px; /* padding2 */
