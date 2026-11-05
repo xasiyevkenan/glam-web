@@ -9,6 +9,7 @@ import { initialsOf } from "@/lib/format";
 import { Logo } from "./Logo";
 import { isActive, navFor } from "./navigation";
 import { Container } from "./PageShell";
+import { ThemeToggle } from "./ThemeToggle";
 
 const glass = "border border-overlay-on-primary bg-overlay-on-primary text-on-primary";
 
@@ -52,9 +53,10 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-s2">
+          <ThemeToggle />
           {status === "authenticated" && user ? (
             <>
-              <Link href="/bildirisler" aria-label="Bildirişlər" className={cn("pressable flex size-circle items-center justify-center rounded-full", glass)}>
+              <Link href="/bildirisler" aria-label="Bildirişlər" className={cn("pressable touch-target relative flex size-circle items-center justify-center rounded-full", glass)}>
                 <Icon name="bell" size={18} />
               </Link>
               <Link href="/profil" aria-label="Profil" className="pressable flex items-center gap-s2">
@@ -67,7 +69,7 @@ export function Header() {
           ) : status === "guest" ? (
             <Link
               href="/giris"
-              className="pressable inline-flex h-button-sm items-center rounded-lg bg-on-primary px-s3 text-body5 font-semibold text-primary"
+              className="pressable touch-target relative inline-flex h-button-sm items-center rounded-lg bg-on-primary px-s3 text-body5 font-semibold text-primary"
             >
               Daxil ol
             </Link>

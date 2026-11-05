@@ -12,8 +12,8 @@ type ActiveToast = Required<Omit<ToastOptions, "duration">> & { id: number };
 const DEFAULT_DURATION = 2600;
 
 const variants: Record<ToastType, { cls: string; icon: IconName }> = {
-  success: { cls: "bg-status-active text-on-primary", icon: "checkCircle" },
-  error: { cls: "bg-danger text-on-primary", icon: "alertCircle" },
+  success: { cls: "bg-status-active text-on-strong", icon: "checkCircle" },
+  error: { cls: "bg-danger text-on-strong", icon: "alertCircle" },
   // Mobil-də info fonu `surface`, mətn `textOnPrimary` idi (açıq rejimdə oxunmur) — burada mətn textPrimary.
   info: { cls: "bg-surface text-text-primary border border-border", icon: "infoCircle" },
 };
@@ -32,6 +32,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [toast, setToast] = useState<ActiveToast | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const idRef = useRef(0);
+  const layerRef = useRef<HTMLDivElement>(null);
+
+  // Hər yeni toast-da qatı yenidən açırıq ki, sonradan açılmış modalın da üstünə çıxsın.
+  useEffect(() => {
+    const layer = layerRef.current;
+    if (!layer || typeof layer.showPopover !== "function") return;
+    if (layer.matches(":popover-open")) layer.hidePopover();
+    if (toast) layer.showPopover();
+  }, [toast]);
 
   const show = useCallback(({ message, type = "info", duration = DEFAULT_DURATION }: ToastOptions) => {
     idRef.current += 1;
@@ -59,7 +68,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext value={api}>
       {children}
-      <div aria-live="polite" className="pointer-events-none fixed inset-x-0 top-s2 z-[999] flex justify-center px-s4">
+      {/* popover="manual" — toast açıq modalın (top layer) da üstündə görünsün. */}
+      <div
+        ref={layerRef}
+        popover="manual"
+        aria-live="polite"
+        className="pointer-events-none fixed inset-x-0 top-s2 bottom-auto m-0 flex items-start w-full justify-center overflow-visible border-0 bg-transparent px-s4 p-0"
+      >
         {toast && variant ? (
           <button
             key={toast.id}

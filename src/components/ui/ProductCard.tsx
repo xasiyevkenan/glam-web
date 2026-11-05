@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { formatPriceRange } from "@/lib/format";
+import { imageSizes } from "@/styles/breakpoints";
 import type { Product } from "@/types/product";
 import { StatusBadge } from "./Badge";
 import { Icon } from "./Icon";
@@ -31,7 +32,7 @@ export function ProductCard({ product, href, variant = "browse", onToggleFavorit
             src={image}
             alt={product.title}
             fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+            sizes={imageSizes({ lg: "25vw", md: "33vw" }, "50vw")}
             className="object-cover"
             priority={priority}
           />
@@ -67,7 +68,7 @@ export function ProductCard({ product, href, variant = "browse", onToggleFavorit
           <Link
             href={editHref}
             aria-label="Redaktə et"
-            className="pressable absolute top-s1 right-s1 z-10 flex size-7 items-center justify-center rounded-full bg-surface text-text-primary shadow-xs"
+            className="pressable touch-target absolute top-s1 right-s1 z-10 flex size-7 items-center justify-center rounded-full bg-surface text-text-primary shadow-xs"
           >
             <Icon name="edit" size={14} />
           </Link>
@@ -79,7 +80,7 @@ export function ProductCard({ product, href, variant = "browse", onToggleFavorit
           aria-pressed={!!product.favorite}
           aria-label={product.favorite ? "Sevimlilərdən çıxar" : "Sevimlilərə əlavə et"}
           className={cn(
-            "pressable absolute top-s1 right-s1 z-10 flex size-7 items-center justify-center rounded-full bg-surface shadow-xs",
+            "pressable touch-target absolute top-s1 right-s1 z-10 flex size-7 items-center justify-center rounded-full bg-surface shadow-xs",
             product.favorite ? "text-danger" : "text-text-secondary",
           )}
         >

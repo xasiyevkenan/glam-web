@@ -16,7 +16,7 @@ export function Logo({ size = "md", href = "/", className }: { size?: "md" | "lg
       <span className={cn("text-on-primary", lg ? "text-h1" : "text-h3")}>Glam.az</span>
     </>
   );
-  const cls = cn("inline-flex items-center", lg ? "flex-col" : "gap-s2", className);
+  const cls = cn("touch-target relative inline-flex items-center", lg ? "flex-col" : "gap-s2", className);
   return href ? (
     <Link href={href} className={cls} aria-label="Glam.az — ana səhifə">
       {content}

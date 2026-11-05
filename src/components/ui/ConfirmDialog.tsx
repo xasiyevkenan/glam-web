@@ -27,7 +27,7 @@ export function ConfirmDialog({ open, onClose, onConfirm, icon, title, descripti
         <span
           className={cn(
             "mb-s4 flex size-14 items-center justify-center rounded-full",
-            destructive ? "bg-danger-bg text-danger" : "bg-primary-light text-primary",
+            destructive ? "bg-danger-bg text-danger" : "bg-primary-light text-on-primary-light",
           )}
         >
           <Icon name={icon} size={24} />

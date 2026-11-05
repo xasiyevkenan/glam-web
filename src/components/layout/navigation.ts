@@ -39,9 +39,8 @@ export function isActive(pathname: string, href: string) {
 }
 
 export const FOOTER_LINKS: { href: string; label: string }[] = [
-  { href: "/haqqimizda", label: "Haqqımızda" },
-  { href: "/elaqe", label: "Əlaqə" },
-  { href: "/qaydalar", label: "İstifadə qaydaları" },
-  { href: "/mexfilik", label: "Məxfilik siyasəti" },
+  // Haqqımızda, Əlaqə, Qaydalar mobildə olmadığı üçün yoxdur (Qayda 10, "Sonraya saxlandı").
+  { href: "/", label: "Ana səhifə" },
+  { href: "/magazalar", label: "Mağazalar" },
   { href: "/komek", label: "Kömək mərkəzi" },
 ];

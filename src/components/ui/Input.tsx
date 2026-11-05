@@ -39,7 +39,7 @@ export function Input({ label, icon, isPassword, error, hint, required, id, type
             type="button"
             onClick={() => setVisible((v) => !v)}
             aria-label={visible ? "Şifrəni gizlət" : "Şifrəni göstər"}
-            className="pressable -mr-1 p-1 text-text-muted"
+            className="pressable touch-target relative -mr-1 p-1 text-text-muted"
           >
             <Icon name={visible ? "eyeOff" : "eye"} size={18} />
           </button>

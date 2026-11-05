@@ -6,7 +6,7 @@ export function SectionTitle({ title, href, linkLabel = "Hamısı", as: Tag = "h
     <div className="mb-s3 flex items-center justify-between gap-s2">
       <Tag className="text-h4 text-text-primary">{title}</Tag>
       {href ? (
-        <Link href={href} className="pressable text-caption1 font-semibold text-link">
+        <Link href={href} className="pressable touch-target relative text-caption1 font-semibold text-link">
           {linkLabel}
         </Link>
       ) : null}

@@ -17,7 +17,7 @@ export function Avatar({ initials, src, alt = "", icon, size = 48, isOnline, cla
   const dot = Math.max(10, size * 0.26);
   return (
     <span className={cn("relative inline-flex shrink-0", className)} style={{ width: size, height: size }}>
-      <span className="flex size-full items-center justify-center overflow-hidden rounded-full bg-primary-light text-h4 text-primary">
+      <span className="flex size-full items-center justify-center overflow-hidden rounded-full bg-primary-light text-h4 text-on-primary-light">
         {src ? (
           <Image src={src} alt={alt} width={size} height={size} className="size-full object-cover" unoptimized />
         ) : (

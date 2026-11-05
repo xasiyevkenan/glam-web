@@ -11,7 +11,7 @@ export type ButtonVariant = "primary" | "secondary" | "outline" | "destructive";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-primary text-on-primary",
-  destructive: "bg-danger text-on-primary",
+  destructive: "bg-danger text-on-strong",
   // SecondaryButton və ActionButton(outline) mobil-də eyni görünür
   secondary: "border border-border bg-transparent text-text-primary",
   outline: "border border-border bg-transparent text-text-primary",
@@ -30,7 +30,7 @@ type CommonProps = {
 
 function classes({ variant = "primary", size = "md", fullWidth, className }: CommonProps) {
   return cn(
-    "pressable inline-flex items-center justify-center gap-s1 rounded-lg px-s5 text-button select-none",
+    "pressable touch-target relative inline-flex items-center justify-center gap-s1 rounded-lg px-s5 text-button select-none",
     "disabled:cursor-not-allowed disabled:opacity-60 aria-disabled:pointer-events-none aria-disabled:opacity-60",
     size === "sm" ? "h-button-sm text-body5 font-semibold" : "h-button",
     fullWidth && "w-full",

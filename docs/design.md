@@ -88,6 +88,14 @@ Status nişanları (`getStatusStyle`, ProductCard):
 | inactive | `imageTint2` | `statusInactive` |
 | rejected / sold | `imageTint2` | `statusSold` |
 
+Veb üçün əlavə edilmiş **törəmə** tokenlər (yeni rəng deyil — mövcud palitradan, tünd rejimdə kontrast üçün, Qayda 9):
+
+| Token | Açıq | Tünd | Harada |
+|---|---|---|---|
+| `textOnStrong` (`--text-on-strong`) | `#FAF7F2` (textOnPrimary) | `#1A1720` (screenBackground) | `danger` / `statusActive` / `accent` fonlu düymə, toast və "İzlə" mətni. Mobil-də həmişə ağ idi, tünd rejimdə açıq fon üzərində oxunmurdu |
+| `onPrimaryLight` (`--on-primary-light`) | `#2E2140` (primary) | `#9C8FE0` (iconPurple) | `primaryLight` fon üzərində avatar hərfi, modal ikonu. Mobil-də `primary` idi, tünddə görünmürdü |
+| `--touch-target` | 44px | | Kiçik düymələrin görünməz toxunma sahəsi (`touch-target` utility) |
+
 ## 3. Şrift
 
 - Ailə: **Montserrat** — çəkilər: Regular 400, Medium 500, SemiBold 600, Bold 700, ExtraBold 800.
@@ -260,7 +268,8 @@ Aşağıdakılar **başlanğıc təkliflərdir**. Veb üçün daha yaxşı yerl�
 (rəng, şrift, radius, komponent üslubu) dəyişmir. Hər səhifə 375, 768, 1280 və 1536px enlərində və hər iki rejimdə
 (açıq/tünd) yoxlanmalıdır.
 
-- Breakpoint-lər: `sm` 640, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1536. Hamısı `tokens.css`-də tək yerdə.
+- Breakpoint-lər: `sm` 640, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1536. Hamısı `tokens.css`-də (`@theme --breakpoint-*`) tək yerdə. JS lazım olan yer (`next/image` `sizes`) üçün `src/styles/breakpoints.ts` surətdir; `npm run lint` onların eyni olduğunu yoxlayır.
+- `lg`-dən (1024) yuxarı: tab-lar yuxarı menyuda; aşağıda: mobil kimi aşağı tab bar.
 - Mobile-first: əvvəl telefon (360–640px), sonra planşet (768–1024px), kompüter (1280px+), geniş ekran (1536px+).
 - Məhsul şəbəkəsi: mobil 2 sütun (mobil app kimi) → `md` 3 → `lg` 4 sütun. Aralıq 12–15px.
 - Mağaza siyahısı: mobil 1 sütun → `lg` 2 sütun.
@@ -290,7 +299,9 @@ Aşağıdakılar **başlanğıc təkliflərdir**. Veb üçün daha yaxşı yerl�
 | `FONTS.h1…tiny`, `button`, `label`                   | `text-h1`, `text-h3`, `text-body4`, `text-caption2`, `text-button`, `text-label`, `text-tiny` (ölçü + sətir + çəki birlikdə) |                       |
 | Düymə / input hündürlüyü                             | `h-button` (54), `h-button-sm` (35), `h-control` (52)                                                                        |                       |
 | `activeOpacity`                                      | `pressable`                                                                                                                  | `--press-opacity`     |
+| Kiçik düymənin toxunma sahəsi (≥44px)                | `touch-target` (element `relative`/`absolute` olmalıdır)                                                                     | `--touch-target`      |
 | Kölgələr                                             | `shadow-xs/sm/md/header/nav`                                                                                                 |                       |
 
-- Tema: default sistem; əl ilə `setThemeScheme('light'|'dark'|'system')` (`src/styles/theme.ts`), `<html data-theme>`.
+- Tema: default sistem; Header-dəki ay düyməsi (`ThemeToggle`) əks rejimi seçir və `localStorage`-də (`glam_theme`) saxlayır. API: `setThemeScheme('light'|'dark'|'system')` (`src/styles/theme.ts`), `<html data-theme>`.
+- Vizual yoxlama: `next dev` + `/dev/ui` (yalnız dev-də açılır) və `node scripts/screenshots.mjs <url> <qovluq> <yollar…>` — 375/768/1280/1536, light/dark, üfüqi scroll və <44px toxunma sahəsi yoxlanılır.
 - Şrift: `src/styles/fonts.ts` (`next/font/local`, Montserrat 400–800).

@@ -12,9 +12,9 @@ export function FollowButton({ following, onClick, size = "sm", disabled }: { fo
       disabled={disabled}
       aria-pressed={following}
       className={cn(
-        "pressable inline-flex items-center justify-center gap-1 self-start rounded-full border text-label disabled:opacity-60",
+        "pressable touch-target relative inline-flex items-center justify-center gap-1 self-start rounded-full border text-label disabled:opacity-60",
         size === "md" ? "px-s4 py-s1" : "px-s3 py-[7px]",
-        following ? "border-border bg-surface-muted text-text-primary" : "border-accent bg-accent text-white",
+        following ? "border-border bg-surface-muted text-text-primary" : "border-accent bg-accent text-on-strong",
       )}
     >
       {!following ? <Icon name="plus" size={12} /> : null}

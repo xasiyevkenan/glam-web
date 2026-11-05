@@ -13,7 +13,7 @@ const variants: Record<Variant, string> = {
 /** Mobil `common/Badge`: pill, px 12 py 4, caption2 600. */
 export function Badge({ variant = "muted", className, children }: { variant?: Variant; className?: string; children: ReactNode }) {
   return (
-    <span className={cn("inline-flex self-start rounded-full px-s2 py-1 text-caption2 font-semibold", variants[variant], className)}>
+    <span className={cn("inline-flex rounded-full px-s2 py-1 text-caption2 font-semibold", variants[variant], className)}>
       {children}
     </span>
   );

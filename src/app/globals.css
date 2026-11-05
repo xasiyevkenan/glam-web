@@ -31,6 +31,8 @@
   --color-on-primary: var(--text-on-primary);
   --color-on-primary-muted: var(--text-on-primary-muted);
   --color-chip-text: var(--chip-text);
+  --color-on-strong: var(--text-on-strong);
+  --color-on-primary-light: var(--on-primary-light);
   --color-placeholder: var(--placeholder);
   --color-overlay-on-primary: var(--overlay-on-primary);
   --color-link: var(--link-active);
@@ -175,6 +177,22 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+}
+
+/*
+ * Kiçik görünüşlü düymələrin toxunma sahəsini görünüşü dəyişmədən ən az 44px edir.
+ * Element `relative` və ya `absolute` olmalıdır.
+ */
+@utility touch-target {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, var(--touch-target));
+    height: max(100%, var(--touch-target));
+    transform: translate(-50%, -50%);
   }
 }
 

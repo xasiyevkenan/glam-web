@@ -47,11 +47,11 @@
 
 ## Addım 2.5. Yeni qaydalara uyğunlaşdırma (Addım 3-dən əvvəl)
 
-- [ ] Qaydalar 7, 9, 10, 11-ə görə mövcud Addım 2 işini yoxla: layout, komponentlər, Header/Footer/BottomNav 375, 768, 1280, 1536px enlərində düzgündürmü
-- [ ] Header-də açıq/tünd rejim dəyişdirmə düyməsi var və işləyirmi (yoxdursa əlavə et)
-- [ ] Bütün ortaq komponentləri hər iki rejimdə yoxla (xüsusilə Toast info variantı, Badge, Chip, Modal, Input)
-- [ ] Breakpointlərin `tokens.css`-də tək yerdə olduğunu yoxla
-- [ ] Build və lint keçsin
+- [x] Qaydalar 7, 9, 10, 11-ə görə mövcud Addım 2 işini yoxla: layout, komponentlər, Header/Footer/BottomNav 375, 768, 1280, 1536px enlərində düzgündürmü — Playwright ilə yoxlanıldı (`scripts/screenshots.mjs`, `/dev/ui`). Düzəldildi: PageHeader kompüterdə tam enli kart, Footer-dən mobildə olmayan səhifə linkləri çıxarıldı, kiçik düymələrə ≥44px toxunma sahəsi (`touch-target`). Üfüqi scroll yoxdur.
+- [x] Header-də açıq/tünd rejim dəyişdirmə düyməsi var və işləyirmi (yoxdursa əlavə et) — `ThemeToggle` (ay ikonu), `data-theme` + `localStorage`
+- [x] Bütün ortaq komponentləri hər iki rejimdə yoxla (xüsusilə Toast info variantı, Badge, Chip, Modal, Input) — tünd rejimdə düzəldildi: destructive düymə, success/error toast, "İzlə" mətni (`text-on-strong`), avatar hərfi və modal ikonu (`on-primary-light`); Badge hizalanması; toast modalın üstündə görünür (`popover`)
+- [x] Breakpointlərin `tokens.css`-də tək yerdə olduğunu yoxla — `@theme --breakpoint-*` tokens.css-də; `breakpoints.ts` (yalnız `next/image sizes`) lint ilə yoxlanılır
+- [x] Build və lint keçsin
 
 ## Addım 3. Ekranlar (Addım 2.5 bitəndən sonra, ayrı agentlərlə)
 
@@ -113,7 +113,8 @@ Hər qrupu bitirəndə: build və lint keç, 4 enində (375, 768, 1280, 1536px) 
 ## Yoxlanmayanlar
 
 - Uğurlu giriş real hesabla sınanmayıb (test hesabı yoxdur). Qrup A-da giriş səhifəsi hazır olanda yoxlanmalıdır.
-- Səhifələrə brauzerdə baxılmayıb. Görünüş kodda mobil komponentlərlə tutuşdurulub, ekranda yox. İstifadəçi brauzerdə yoxlayacaq.
+- Yoxlama yalnız Chromium-da (Playwright) edilib. Safari/Firefox və real telefonlarda baxılmayıb.
+- Toast-un açıq modalın üstündə görünməsi (`popover`) avtomatik testlə yoxlanmayıb (modal açıq ikən toast düyməsinə basmaq olmur).
 
 ## Ekranlar (Addım 1-də doldurulur)
 
@@ -225,3 +226,7 @@ _Hələ heç nə dəyişdirilməyib. `web-support` branch-ı yaradılmayıb._
 14. **Backend timeout:** Render (free) "soyuq start"da ilk sorğu 10+ san. çəkir. Server sorğuları 10 san., BFF 30 san. gözləyir.
 15. **Dizayn yanaşması (sonradan əlavə):** marka (rəng, şrift, radius, komponent üslubu) mobillə eyni, səhifə quruluşu və geniş ekran yerləşməsi veb üçün ayrıca düşünülür (Qayda 7). Açıq və tünd rejim məcburidir (Qayda 9), responsivlik məcburidir (Qayda 11).
 16. **Mobildə olmayan işlər** (sifariş, ödəniş, Haqqımızda, Əlaqə, Gizlilik siyasəti, Satıcı razılaşması) "Sonraya saxlandı" bölməsinə köçürülüb (Qayda 10).
+17. **Tünd rejim kontrastı:** mobil-də bəzi birləşmələr tünd rejimdə oxunmurdu (açıq qırmızı fonda ağ mətn, primaryLight üzərində primary). Mövcud palitradan iki törəmə token əlavə edildi: `--text-on-strong`, `--on-primary-light` (design.md §2).
+18. **Toxunma sahəsi:** mobil ölçüləri (chip 34px, ürək 28px və s.) görünüşcə saxlanılıb, toxunma sahəsi görünməz `::after` ilə 44px edilib (`touch-target`).
+19. **`/dev/ui`** — komponent önizləməsi yalnız `next dev`-də açılır (production-da 404), `noindex`. Ekran görüntüsü yoxlaması üçündür, istifadəçi ekranı deyil.
+20. **Tema düyməsi:** mobil-də Profil-dəki "Tünd rejim" açarıdır; vebdə hər səhifədən əlçatan olsun deyə Header-də ay ikonlu düymədir (Qayda 9).

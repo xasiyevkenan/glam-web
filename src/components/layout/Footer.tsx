@@ -14,10 +14,10 @@ export function Footer() {
           <p className="mt-s3 text-body5">Zərif geyim, bir kirayə uzağında</p>
         </div>
         <nav aria-label="Məlumat">
-          <ul className="grid grid-cols-2 gap-x-s7 gap-y-s2 text-body5 sm:grid-cols-3">
+          <ul className="flex flex-wrap gap-x-s6 text-body5">
             {FOOTER_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="pressable text-on-primary-muted hover:text-on-primary">
+                <Link href={link.href} className="pressable inline-flex min-h-11 items-center text-on-primary-muted hover:text-on-primary">
                   {link.label}
                 </Link>
               </li>
