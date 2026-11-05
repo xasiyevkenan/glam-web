@@ -57,12 +57,12 @@
 
 Hər qrupu bitirəndə: build və lint keç, 4 enində (375, 768, 1280, 1536px) və hər iki rejimdə (light/dark) yoxla, sonra `[x]` qoy.
 
-### Qrup A: Hesab
+### Qrup A: Hesab (branch `web/auth`)
 
-- [ ] Giriş səhifəsi
-- [ ] Qeydiyyat səhifəsi (müştəri/mağaza seçimi, şəhər)
-- [ ] Profil səhifəsi və profili redaktə
-- [ ] Parolu unutdum və OTP (mobildə OTP backend-ə qoşulmayıb, vebdə də mobil qədər)
+- [x] Giriş səhifəsi (`/giris`) — telefon + şifrə, "Qonaq kimi daxil ol" → ana səhifə, `?next=` ilə geri qayıtma. Kompüterdə iki sütun (brend paneli + forma). Dil seçimi pill-i yoxdur (yalnız az)
+- [x] Qeydiyyat səhifəsi (müştəri/mağaza seçimi, şəhər) (`/qeydiyyat`) — hesab növü kartları, mağaza bildiriş banneri, şəhər modalı (axtarışlı), şifrə ≥8, razılıq checkbox-u keçidsiz
+- [x] Profil səhifəsi və profili redaktə (`/profil`, `/profil/duzelis`) — müştəri: kart, statistikalar, ayarlar, qaranlıq rejim açarı, çıxış təsdiqi; mağaza: `/stores/me` kartı, aktiv elan/reytinq, ayarlar. Redaktə yalnız müştəri (mobil kimi)
+- [x] Parolu unutdum və OTP (mobildə OTP backend-ə qoşulmayıb, vebdə də mobil qədər) (`/sifremi-unutdum`, `/sifremi-unutdum/kod`) — 800ms gözləmə, 59 san. taymer, 4 rəqəmli kod; backend sorğusu yoxdur
 
 ### Qrup B: Əsas səhifələr
 
@@ -112,7 +112,8 @@ Hər qrupu bitirəndə: build və lint keç, 4 enində (375, 768, 1280, 1536px) 
 
 ## Yoxlanmayanlar
 
-- Uğurlu giriş real hesabla sınanmayıb (test hesabı yoxdur). Qrup A-da giriş səhifəsi hazır olanda yoxlanmalıdır.
+- **Uğurlu giriş və qeydiyyat real hesabla sınanmayıb** (test hesabı yoxdur; production backend-də test hesabı yaratmaq istəmədim). Yoxlanılan: forma validasiyası, səhv girişdə backend mesajının toast-da göstərilməsi, cookie/proxy məntiqi. Profil səhifələri Playwright-da saxta sessiya ilə (`scripts/mocks/*.json`) yoxlanılıb.
+- Profil redaktəsi (`PUT /auth/me`) real backend-ə qarşı sınanmayıb.
 - Yoxlama yalnız Chromium-da (Playwright) edilib. Safari/Firefox və real telefonlarda baxılmayıb.
 - Toast-un açıq modalın üstündə görünməsi (`popover`) avtomatik testlə yoxlanmayıb (modal açıq ikən toast düyməsinə basmaq olmur).
 
@@ -181,7 +182,8 @@ Endpoint yolları `/api`-dən sonradır. Hamısı backend Swagger-də (`/api-doc
 3. **Bir istifadəçi = bir refresh token.** İstifadəçi vebdə daxil olanda mobil appdakı sessiyası (növbəti refresh-də) bağlanacaq, və əksinə. Bu, mobil appı "pozmur", amma istifadəçi üçün narahatdır.
    → Tövsiyə (hələ edilməyib): `web-support` branch-da `refresh_tokens` cədvəli (user_id, token_hash, device, expires_at) ilə çox sessiya dəstəyi. Mobil app üçün API eyni qalır. Bunun üçün ayrıca icazə/qərar lazımdır, çünki DB migrasiyası tələb edir.
 4. **İctimai məhsul detalı endpointi yoxdur** (`GET /products/:id`). Vebdə `/mehsul/[id]` səhifəsi və SEO üçün lazımdır. → Addım 3-də (Qrup B, Detal səhifəsi) `web-support` branch-da əlavə ediləcək: yalnız yeni endpoint, mövcudlara toxunulmur.
-5. Kiçik: mobil `GET /stores` sorğusuna `sort` göndərir, backend onu nəzərə almır. `GET /auth/admin/login` və `src/routes/admin/*` Swagger-ə düşmür (`swagger.js` `apis: ["src/routes/*.js"]`). Veb üçün bloklayıcı deyil.
+5. **Xəta formatı:** `errorHandler.js` service-lərin `error.statusCode`-unu nəzərə almır — səhv şifrə, mövcud telefon və s. hamısı `500 {"error":{"message":"Daxili server xətası"}}` qaytarır. Mobil appda da eynidir. Veb mesajı olduğu kimi göstərir (backend-ə toxunulmadı — mövcud endpointlərin davranışıdır). Tövsiyə: `errorHandler`-də `err.statusCode` varsa onu və `err.message`-i qaytarmaq.
+6. Kiçik: mobil `GET /stores` sorğusuna `sort` göndərir, backend onu nəzərə almır. `GET /auth/admin/login` və `src/routes/admin/*` Swagger-ə düşmür (`swagger.js` `apis: ["src/routes/*.js"]`). Veb üçün bloklayıcı deyil.
 
 ### Dəyişikliklər
 
@@ -230,3 +232,5 @@ _Hələ heç nə dəyişdirilməyib. `web-support` branch-ı yaradılmayıb._
 18. **Toxunma sahəsi:** mobil ölçüləri (chip 34px, ürək 28px və s.) görünüşcə saxlanılıb, toxunma sahəsi görünməz `::after` ilə 44px edilib (`touch-target`).
 19. **`/dev/ui`** — komponent önizləməsi yalnız `next dev`-də açılır (production-da 404), `noindex`. Ekran görüntüsü yoxlaması üçündür, istifadəçi ekranı deyil.
 20. **Tema düyməsi:** mobil-də Profil-dəki "Tünd rejim" açarıdır; vebdə hər səhifədən əlçatan olsun deyə Header-də ay ikonlu düymədir (Qayda 9).
+21. **Qrup A:** dil seçimi (az/en/ru) göstərilmir — yalnız az. Profil-dəki "Rəylərim", "Mağaza ünvanı", mağaza "Bildirişlər" sətirləri mobil-də TODO-dur — vebdə də görünür, amma heç yerə aparmır. Mağaza profilindəki mobil saxta dəyərlər (kateqoriya, rayon, "Balansım 0 AZN") göstərilmir, çünki backend məlumatı deyil. Razılıq checkbox-u saxlanılıb, mətn keçidsizdir.
+22. **Telefonda header + PageHeader tək blokdur:** Header telefonda düz zolaqdır, onun altındakı PageHeader mobil ScreenHeader kimi aşağı küncləri yumru, accent xəttli davamdır. Kompüterdə Header-in öz accent xətti və kölgəsi var, PageHeader ayrıca kartdır.
