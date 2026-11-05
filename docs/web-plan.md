@@ -40,7 +40,7 @@
 - [x] Dizayn sistemi: `docs/design.md`-ə əsasən rəngləri, şriftləri və ölçüləri tək yerdə təyin et (mobil appla eyni)
 - [x] Ortaq komponentləri düzəlt: düymə, input, kart, modal və s., mobildəkilərlə eyni görünüşdə (`src/components/ui`: Button, Input, PhoneInput, SearchBar, Chip, Badge/StatusBadge, Card/StatCard, ProductCard/ProductGrid, Avatar, ListRow/SettingsListItem, FollowButton, Modal (sheet/dialog), ConfirmDialog, Toast, Skeleton, EmptyState, SectionTitle, Icon). OtpInput, DateField, ImageGallery, PriceTicket və chat komponentləri aid olduqları ekranlarla (Addım 3) ediləcək
 - [x] Ümumi layout: yuxarı menyu, aşağı hissə, səhifə qabığı (`src/components/layout`: Header — kompüterdə tab-lar yuxarıda, BottomNav — mobil endə mobil tab bar, Footer, PageShell/Container, PageHeader (ScreenHeader), Logo; route qrupları `(site)` və `(auth)`, 404 səhifəsi, favicon/app ikonu)
-- [ ] Build və lint keçsin
+- [x] Build və lint keçsin (`npm run build`, `npm run lint`, `tsc --noEmit` — xətasız, xəbərdarlıqsız)
 
 ## Addım 3. Ekranlar (Addım 2 bitəndən sonra, ayrı agentlərlə)
 
@@ -155,7 +155,7 @@ _Hələ heç nə dəyişdirilməyib. `web-support` branch-ı yaradılmayıb._
 ## Qərarlar
 
 1. **Branch-lar:** Addım 1 `web/analysis`, Addım 2 `web/foundation` branch-ında. `main`-ə birbaşa yazılmır.
-2. **Auth arxitekturası — BFF (Next.js proxy):** brauzer yalnız öz domeni ilə (`/api/...` Next route handler-ləri) danışır. Tokenlər httpOnly cookie-lərdə saxlanılır (`glam_at`, `glam_rt`), Next serveri backend-ə `Authorization: Bearer` göndərir və 401-də refresh edir. Səbəb: backend-ə və mobil appa toxunmadan "cookie ilə giriş", CORS dəyişikliyi lazım deyil, tokenlər JS-ə açıq deyil (XSS-dən qorunur). Socket.io üçün brauzer qısa ömürlü access token-i `GET /api/auth/socket-token` ilə alır.
+2. **Auth arxitekturası — BFF (Next.js proxy):** brauzer yalnız öz domeni ilə (`/api/...` Next route handler-ləri) danışır. Tokenlər httpOnly cookie-lərdə saxlanılır (`glam_at`, `glam_rt`), Next serveri backend-ə `Authorization: Bearer` göndərir; access token bitməyə 30 san. qalanda `src/proxy.ts` onu refresh token ilə yeniləyir. Səbəb: backend-ə və mobil appa toxunmadan "cookie ilə giriş", CORS dəyişikliyi lazım deyil, tokenlər JS-ə açıq deyil (XSS-dən qorunur). Socket.io üçün brauzer qısa ömürlü access token-i `GET /api/auth/socket-token` ilə alır.
 3. **Çox sessiya (refresh token) problemi** hələlik həll edilmir, yalnız "Backend qeydləri" #3-də tövsiyə kimi yazılıb. Səbəb: DB migrasiyası tələb edir, Addım 1–2 üçün bloklayıcı deyil.
 4. **Sifariş / ödəniş** mobil appda olmadığı üçün vebdə də edilmir. Qrup C mobil appdakı real funksiyalara görə dəyişdirilib, Qrup E (mağaza paneli) əlavə edilib.
 5. **i18n:** az (default), en, ru. Mobil locale faylları `src/i18n/locales`-ə kopyalanıb. Açarlar mobil-dəki kimi azərbaycanca mətnlərdir. SEO üçün az dili prefikssiz (`/`), digərləri sonra (`/en`, `/ru`) əlavə ediləcək. Addım 2-də yalnız az.
@@ -184,8 +184,8 @@ _Hələ heç nə dəyişdirilməyib. `web-support` branch-ı yaradılmayıb._
        styles/             tokens.css (design.md-dən), globals.css
        types/              ortaq tiplər (mobil `src/types`-a uyğun)
    ```
+10. **Stil:** Tailwind CSS v4, rəng/ölçü dəyərləri yalnız `src/styles/tokens.css`-də CSS dəyişənləri kimi; Tailwind `@theme` bu dəyişənlərə bağlanır. Komponentlərdə hex yazılmır.
 11. **Header/Footer:** Mobil appda yuxarı menyu və footer yoxdur. Header ScreenHeader-in görünüşündən (primary fon, accent xətt, şüşə düymələr) qurulub, tab-lar eyni ikon və adlarla. Footer `primaryDark` fonlu sadə blokdur. Header-dəki hərəkətli "BouncingBlobs" fonu hələ edilməyib (dekorativ, Addım 3-də ana səhifə ilə).
 12. **Toast "info" variantı:** mobil-də fon `surface`, mətn `textOnPrimary` (açıq rejimdə demək olar görünmür). Vebdə mətn `textPrimary` + 1px border edilib — kiçik düzəliş.
 13. **Cache Components** (Next 16 default) açıqdır: layout statikdir, istifadəçi client-də `/api/auth/session`-dan oxunur. Server tərəfində sessiya oxuyan komponentlər `<Suspense>` içində olmalıdır.
 14. **Backend timeout:** Render (free) "soyuq start"da ilk sorğu 10+ san. çəkir. Server sorğuları 10 san., BFF 30 san. gözləyir.
-10. **Stil:** Tailwind CSS v4, rəng/ölçü dəyərləri yalnız `src/styles/tokens.css`-də CSS dəyişənləri kimi; Tailwind `@theme` bu dəyişənlərə bağlanır. Komponentlərdə hex yazılmır.

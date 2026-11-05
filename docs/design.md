@@ -114,7 +114,7 @@ Mobil appda kodda tez-tez `fontFamily: 'Montserrat-SemiBold'` ilə stil üzərin
 | `padding6` | 25 |
 | `padding7` | 30 |
 
-- Ekranın yan boşluğu (mobil): `padding4` = **18px**. Vebdə: mobil eni 18px, planşet 24px, kompüterdə məzmun `max-width: 1200px` ortada.
+- Ekranın yan boşluğu (mobil): `padding4` = **18px**. Vebdə: mobil eni 18px, planşetdən (`md`) 25px (`padding6`), kompüterdə məzmun `max-width: 1200px` ortada.
 - Siyahı sətri şaquli boşluğu: `padding3` (15).
 - Input-lar arası: `padding4` (18) alt boşluq.
 
