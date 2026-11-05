@@ -185,3 +185,13 @@
   &:hover:not(:disabled) { opacity: var(--press-opacity); }
   &:active:not(:disabled) { opacity: 0.7; }
 }
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: translateY(0); }
+}

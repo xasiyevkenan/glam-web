@@ -38,7 +38,7 @@
 - [x] Backend ilə əlaqə üçün ortaq API client yaz (`src/lib/api`: server üçün `serverApi`, brauzer üçün `api` → BFF `/api/backend/*`)
 - [x] Giriş sistemini qur (cookie ilə, backend uyğunlaşdırılsa) — backend dəyişmədən: `/api/auth/*` route handler-ləri + httpOnly cookie, refresh `src/proxy.ts`-də, client üçün `useAuth()`. Giriş/qeydiyyat səhifələrinin UI-si Qrup A-dadır
 - [x] Dizayn sistemi: `docs/design.md`-ə əsasən rəngləri, şriftləri və ölçüləri tək yerdə təyin et (mobil appla eyni)
-- [ ] Ortaq komponentləri düzəlt: düymə, input, kart, modal və s., mobildəkilərlə eyni görünüşdə
+- [x] Ortaq komponentləri düzəlt: düymə, input, kart, modal və s., mobildəkilərlə eyni görünüşdə (`src/components/ui`: Button, Input, PhoneInput, SearchBar, Chip, Badge/StatusBadge, Card/StatCard, ProductCard/ProductGrid, Avatar, ListRow/SettingsListItem, FollowButton, Modal (sheet/dialog), ConfirmDialog, Toast, Skeleton, EmptyState, SectionTitle, Icon). OtpInput, DateField, ImageGallery, PriceTicket və chat komponentləri aid olduqları ekranlarla (Addım 3) ediləcək
 - [ ] Ümumi layout: yuxarı menyu, aşağı hissə, səhifə qabığı
 - [ ] Build və lint keçsin
 
