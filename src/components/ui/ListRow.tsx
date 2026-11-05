@@ -4,6 +4,7 @@ import type { IconName } from "@/components/icons";
 import { cn } from "@/lib/cn";
 import { Avatar } from "./Avatar";
 import { Icon } from "./Icon";
+import { Switch } from "./Switch";
 
 type RowBase = { href?: string; onClick?: () => void; className?: string; children: ReactNode; isLast?: boolean };
 
@@ -11,6 +12,7 @@ function RowShell({ href, onClick, className, children, isLast }: RowBase) {
   const cls = cn("flex w-full items-center py-s3 text-left", !isLast && "border-b border-border-light", (href || onClick) && "pressable", className);
   if (href) return <Link href={href} className={cls}>{children}</Link>;
   if (onClick) return <button type="button" onClick={onClick} className={cls}>{children}</button>;
+  // Mobil-də TODO olan (heç nə etməyən) sətirlər: görünür, amma kliklənmir.
   return <div className={cls}>{children}</div>;
 }
 
@@ -47,5 +49,42 @@ export function SettingsListItem({ icon, title, subtitle, badge, danger, highlig
         <Icon name="chevronRight" size={18} className="text-text-muted" />
       ) : null}
     </RowShell>
+  );
+}
+
+/** Mobil `common/SettingsToggleItem`: 32px dairəvi ikon (imageTint3) + başlıq + açar. */
+export function SettingsToggleItem({ icon, title, checked, onChange, isLast }: { icon: IconName; title: string; checked: boolean; onChange: (v: boolean) => void; isLast?: boolean }) {
+  return (
+    <div className={cn("flex items-center justify-between py-s3", !isLast && "border-b border-border")}>
+      <span className="flex items-center gap-s2">
+        <span className="flex size-8 items-center justify-center rounded-full bg-tint-3 text-text-primary">
+          <Icon name={icon} size={18} />
+        </span>
+        <span className="text-body4 text-text-primary">{title}</span>
+      </span>
+      <Switch checked={checked} onChange={onChange} label={title} />
+    </div>
+  );
+}
+
+/** Mobil StatsRow: bərabər kartlar, dəyər h3, etiket caption1. */
+export function StatsRow({ stats }: { stats: { value: ReactNode; label: string; href?: string }[] }) {
+  return (
+    <div className="flex gap-s3">
+      {stats.map((s) => {
+        const inner = (
+          <>
+            <span className="text-h3 text-text-primary">{s.value}</span>
+            <span className="mt-0.5 text-caption1 text-text-muted">{s.label}</span>
+          </>
+        );
+        const cls = "flex flex-1 flex-col items-center rounded-lg border border-border bg-surface py-s3 text-center";
+        return s.href ? (
+          <Link key={s.label} href={s.href} className={cn(cls, "pressable")}>{inner}</Link>
+        ) : (
+          <div key={s.label} className={cls}>{inner}</div>
+        );
+      })}
+    </div>
   );
 }

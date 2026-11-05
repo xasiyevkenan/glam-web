@@ -7,12 +7,17 @@ import { getEffectiveScheme, setThemeScheme, subscribeTheme, type ThemeScheme } 
 
 const getServerSnapshot = (): ThemeScheme | null => null;
 
+/** Görünən rejim (server render-də `null`). */
+export function useThemeScheme() {
+  return useSyncExternalStore(subscribeTheme, getEffectiveScheme, getServerSnapshot);
+}
+
 /**
  * Açıq/tünd rejim düyməsi (mobil Profil-dəki "Tünd rejim" açarının qarşılığı).
  * Default sistem seçimidir; basanda əks rejim seçilir və yadda qalır (localStorage + data-theme).
  */
 export function ThemeToggle({ className }: { className?: string }) {
-  const scheme = useSyncExternalStore(subscribeTheme, getEffectiveScheme, getServerSnapshot);
+  const scheme = useThemeScheme();
   const isDark = scheme === "dark";
 
   return (

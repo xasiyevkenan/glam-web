@@ -24,9 +24,10 @@ export function Header() {
   const items = navFor(user?.role);
   const firstName = user?.full_name?.split(" ")[0] ?? "";
 
+  // Telefonda header düz zolaqdır — altındakı PageHeader / hero onun davamıdır (mobil ScreenHeader kimi tək blok).
   return (
-    <header className="sticky top-0 z-40 rounded-b-xl bg-primary shadow-header lg:rounded-none">
-      <span aria-hidden className="absolute inset-x-0 bottom-0 h-0.5 bg-accent opacity-70" />
+    <header className="sticky top-0 z-40 bg-primary lg:shadow-header">
+      <span aria-hidden className="absolute inset-x-0 bottom-0 hidden h-0.5 bg-accent opacity-70 lg:block" />
       <Container className="flex h-16 items-center gap-s4 lg:h-[72px]">
         <Logo />
 
@@ -59,7 +60,7 @@ export function Header() {
               <Link href="/bildirisler" aria-label="Bildirişlər" className={cn("pressable touch-target relative flex size-circle items-center justify-center rounded-full", glass)}>
                 <Icon name="bell" size={18} />
               </Link>
-              <Link href="/profil" aria-label="Profil" className="pressable flex items-center gap-s2">
+              <Link href="/profil" aria-label="Profil" className="pressable touch-target relative flex items-center gap-s2">
                 <span className="flex size-circle items-center justify-center rounded-full border-[1.5px] border-accent bg-primary-dark text-h4 text-accent">
                   {initialsOf(firstName, 1)}
                 </span>
