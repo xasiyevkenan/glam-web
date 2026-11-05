@@ -1,12 +1,14 @@
-// Real giriş yoxlaması. İstifadə: node --env-file=<fayl> scripts/auth-smoke.mjs <baseUrl>
-// TEST_PHONE və TEST_PASSWORD mühit dəyişənlərindən oxunur; dəyərlər heç vaxt çap olunmur, ekran görüntüsü alınmır.
+// Real giriş yoxlaması. İstifadə: node --env-file=.env.local scripts/auth-smoke.mjs <baseUrl> <store|customer>
+// TEST_STORE_PHONE / TEST_CUSTOMER_PHONE və TEST_PASSWORD .env.local-dan oxunur;
+// dəyərlər heç vaxt çap olunmur, ekran görüntüsü alınmır. Yalnız giriş/oxuma/çıxış — hesab dəyişdirilmir.
 import { chromium } from "@playwright/test";
 
 const base = process.argv[2] ?? "http://localhost:3458";
-const phone = (process.env.TEST_PHONE ?? "").replace(/\D/g, "").replace(/^994/, "").slice(-9);
+const expectedRole = process.argv[3] === "customer" ? "customer" : "store";
+const phone = ((expectedRole === "customer" ? process.env.TEST_CUSTOMER_PHONE : process.env.TEST_STORE_PHONE) ?? "").replace(/\D/g, "").replace(/^994/, "").slice(-9);
 const password = process.env.TEST_PASSWORD ?? "";
 if (!phone || !password) {
-  console.log("FAIL: TEST_PHONE / TEST_PASSWORD tapılmadı");
+  console.log(`FAIL: ${expectedRole === "customer" ? "TEST_CUSTOMER_PHONE" : "TEST_STORE_PHONE"} / TEST_PASSWORD tapılmadı`);
   process.exit(1);
 }
 
@@ -28,7 +30,7 @@ try {
   const cookies = await authCookies();
   check("httpOnly auth cookie-ləri yazıldı", cookies.length === 2 && cookies.every((c) => c.httpOnly));
   const role = await page.evaluate(async () => (await (await fetch("/api/auth/session")).json()).data?.role ?? null);
-  check(`sessiya oxunur (rol: ${role})`, role === "customer" || role === "store");
+  check(`sessiya oxunur, rol gözlənilən kimidir (${role})`, role === expectedRole);
 
   await page.goto(`${base}/profil`, { waitUntil: "networkidle" });
   check("/profil açılır", new URL(page.url()).pathname === "/profil" && (await page.locator("h1", { hasText: "Profil" }).count()) > 0);
@@ -55,4 +57,5 @@ try {
 } finally {
   await browser.close();
 }
-console.log(results.join("\n"));
+console.log(`[${expectedRole}]\n` + results.join("\n"));
+process.exitCode = results.some((r) => r.startsWith("FAIL")) ? 1 : 0;

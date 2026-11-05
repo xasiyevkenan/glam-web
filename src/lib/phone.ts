@@ -1,4 +1,4 @@
-/** Mobil PhoneInput `formatPhoneNumber`: "553209707" → "(55) 320 97 07" */
+/** Mobil PhoneInput `formatPhoneNumber`: "501234567" → "(50) 123 45 67" */
 export function formatPhone(raw: string): string {
   const d = raw.replace(/\D/g, "").slice(0, 9);
   let out = "";

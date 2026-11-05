@@ -1,5 +1,5 @@
 {
-  "/api/auth/session": { "success": true, "data": { "id": 1, "full_name": "Aysel Cəfərova", "phone": "553209707", "email": "aysel@example.com", "role": "customer", "city": { "id": 1, "name": "Bakı" }, "created_at": "2026-01-01" } },
+  "/api/auth/session": { "success": true, "data": { "id": 1, "full_name": "Aysel Cəfərova", "phone": "501234567", "email": "aysel@example.com", "role": "customer", "city": { "id": 1, "name": "Bakı" }, "created_at": "2026-01-01" } },
   "/api/backend/favorites/ids": { "success": true, "data": [1, 2, 3] },
   "/api/backend/stores/followed": { "success": true, "data": { "items": [], "total": 2 } },
   "/api/backend/cities": { "success": true, "data": [{ "id": 1, "name": "Bakı" }, { "id": 2, "name": "Gəncə" }] }
