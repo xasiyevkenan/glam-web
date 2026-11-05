@@ -17,10 +17,13 @@ export class ApiError extends Error {
 
 export const DEFAULT_ERROR_MESSAGE = "Xəta baş verdi. Yenidən cəhd edin.";
 
+/** Backend iki formada xəta qaytarır: `{ message }` (controller-lər) və `{ error: { message } }` (errorHandler). */
 export function messageFrom(body: unknown, fallback = DEFAULT_ERROR_MESSAGE) {
-  if (body && typeof body === "object" && "message" in body) {
-    const message = (body as { message?: unknown }).message;
-    if (typeof message === "string" && message.trim()) return message;
+  if (!body || typeof body !== "object") return fallback;
+  const b = body as { message?: unknown; error?: unknown };
+  const nested = b.error && typeof b.error === "object" ? (b.error as { message?: unknown }).message : b.error;
+  for (const candidate of [b.message, nested]) {
+    if (typeof candidate === "string" && candidate.trim()) return candidate;
   }
   return fallback;
 }
