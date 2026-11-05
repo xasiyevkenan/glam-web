@@ -3,6 +3,7 @@ import "./globals.css";
 import { montserrat } from "@/styles/fonts";
 import { themeInitScript } from "@/styles/theme";
 import { SITE_URL } from "@/lib/api/config";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

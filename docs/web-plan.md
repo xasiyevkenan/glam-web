@@ -39,7 +39,7 @@
 - [x] Giriş sistemini qur (cookie ilə, backend uyğunlaşdırılsa) — backend dəyişmədən: `/api/auth/*` route handler-ləri + httpOnly cookie, refresh `src/proxy.ts`-də, client üçün `useAuth()`. Giriş/qeydiyyat səhifələrinin UI-si Qrup A-dadır
 - [x] Dizayn sistemi: `docs/design.md`-ə əsasən rəngləri, şriftləri və ölçüləri tək yerdə təyin et (mobil appla eyni)
 - [x] Ortaq komponentləri düzəlt: düymə, input, kart, modal və s., mobildəkilərlə eyni görünüşdə (`src/components/ui`: Button, Input, PhoneInput, SearchBar, Chip, Badge/StatusBadge, Card/StatCard, ProductCard/ProductGrid, Avatar, ListRow/SettingsListItem, FollowButton, Modal (sheet/dialog), ConfirmDialog, Toast, Skeleton, EmptyState, SectionTitle, Icon). OtpInput, DateField, ImageGallery, PriceTicket və chat komponentləri aid olduqları ekranlarla (Addım 3) ediləcək
-- [ ] Ümumi layout: yuxarı menyu, aşağı hissə, səhifə qabığı
+- [x] Ümumi layout: yuxarı menyu, aşağı hissə, səhifə qabığı (`src/components/layout`: Header — kompüterdə tab-lar yuxarıda, BottomNav — mobil endə mobil tab bar, Footer, PageShell/Container, PageHeader (ScreenHeader), Logo; route qrupları `(site)` və `(auth)`, 404 səhifəsi, favicon/app ikonu)
 - [ ] Build və lint keçsin
 
 ## Addım 3. Ekranlar (Addım 2 bitəndən sonra, ayrı agentlərlə)
@@ -184,4 +184,8 @@ _Hələ heç nə dəyişdirilməyib. `web-support` branch-ı yaradılmayıb._
        styles/             tokens.css (design.md-dən), globals.css
        types/              ortaq tiplər (mobil `src/types`-a uyğun)
    ```
+11. **Header/Footer:** Mobil appda yuxarı menyu və footer yoxdur. Header ScreenHeader-in görünüşündən (primary fon, accent xətt, şüşə düymələr) qurulub, tab-lar eyni ikon və adlarla. Footer `primaryDark` fonlu sadə blokdur. Header-dəki hərəkətli "BouncingBlobs" fonu hələ edilməyib (dekorativ, Addım 3-də ana səhifə ilə).
+12. **Toast "info" variantı:** mobil-də fon `surface`, mətn `textOnPrimary` (açıq rejimdə demək olar görünmür). Vebdə mətn `textPrimary` + 1px border edilib — kiçik düzəliş.
+13. **Cache Components** (Next 16 default) açıqdır: layout statikdir, istifadəçi client-də `/api/auth/session`-dan oxunur. Server tərəfində sessiya oxuyan komponentlər `<Suspense>` içində olmalıdır.
+14. **Backend timeout:** Render (free) "soyuq start"da ilk sorğu 10+ san. çəkir. Server sorğuları 10 san., BFF 30 san. gözləyir.
 10. **Stil:** Tailwind CSS v4, rəng/ölçü dəyərləri yalnız `src/styles/tokens.css`-də CSS dəyişənləri kimi; Tailwind `@theme` bu dəyişənlərə bağlanır. Komponentlərdə hex yazılmır.
